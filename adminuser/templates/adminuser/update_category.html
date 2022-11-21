@@ -1,0 +1,17 @@
+{% extends 'adminuser/base.html' %}
+{% load static %}
+{% block title %} Categories {% endblock %}
+
+{% block main %}
+    <h1> Update Category </h1>
+    
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% for f in form %}
+            <div class="form_element mb-3">{{f.label}} {{f}}</div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <script src="{% static 'adminuser/js/script.js' %}"></script>
+{% endblock %}

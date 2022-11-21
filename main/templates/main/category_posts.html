@@ -1,0 +1,32 @@
+{% extends 'adminuser/base.html' %}
+{% load static %}
+{% block title %} Category Posts {% endblock %}
+
+{% block main %}
+    <h1>Category Posts</h1>
+    <div class="row row-cols-3">
+
+        {% for post in posts %} 
+        <div class="col mb-3">
+            <div class="card" style="width: 18rem;">            
+                    
+                <img src="{{post.get_image_url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{post.title}}</h5>
+                    <p class="card-text">{{post.content}}</p>
+                    <p class="card-text">{{post.created_at}}</p>
+                    <p class="card-text">{{post.updated_at}}</p>
+                    <p class="card-text">{{post.category}}</p>
+                </div>
+
+                <a href="{% url 'adminuser.post_details' post.id %}" class="btn btn-primary">Show</a>
+                {% comment %} <a href="{% urxl 'adminuser.update_post' post.id %}" class="btn btn-warning">Edit</a> {% endcomment %}
+                {% comment %} <a href="{% url 'adminuser.delete_post' post.id %}" class="btn btn-danger">Delete</a> {% endcomment %}
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+
+    <script src="{% static 'adminuser/js/script.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'adminuser/base.html' %} {% load static %} 
+{% block title %} Post {% endblock%} 
+
+{% block main %}
+  <h1>Add Post</h1>
+  <form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+      {% comment %} {{form}} {% endcomment %}
+
+    {% for f in form %}
+    <div class="form_element">{{f.label}} {{f}}</div>
+    {% endfor %}
+    <input type="submit" class="btn btn-success" />
+  </form>
+
+  <script src="{% static 'adminuser/js/script.js' %}"></script>
+{% endblock %}

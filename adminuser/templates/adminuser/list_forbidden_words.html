@@ -1,0 +1,29 @@
+{% extends 'adminuser/base.html' %}
+{% load static %}
+{% block title %} Forbidden Words {% endblock %}
+
+{% block main %}
+<h1> All Forbidden Words </h1>
+<a href="{% url 'adminuser.create_forbidden_word' %}" class="btn btn-primary">Add Word</a>
+    {% comment %} {{object_list}}
+    {{posts}} {% endcomment %}
+
+ <table class="table">
+  <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Word</th>
+    </tr>
+  </thead>
+  <tbody>
+     {% for forbidden_word in object_list %}
+        <tr>
+            <td> {{forbidden_word.id}}</td> <td> {{forbidden_word.word}}</td>
+            <td> <a href="{% url 'adminuser.update_forbidden_word' forbidden_word.id %}" class="btn btn-warning">Edit</a></td>
+            <td> <a href="{% url 'adminuser.delete_forbidden_word' forbidden_word.id %}" class="btn btn-danger">Delete</a></td>
+        </tr>
+    {%endfor%}
+  </tbody>
+    </table>
+    <script src="{% static 'adminuser/js/script.js' %}"></script>
+{% endblock %}

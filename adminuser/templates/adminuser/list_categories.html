@@ -1,0 +1,32 @@
+{% extends 'adminuser/base.html' %}
+{% load static %}
+{% block title %} Categories {% endblock %}
+
+{% block main %}
+<h1> All Categories </h1>
+<a href="{% url 'adminuser.create_category' %}" class="btn btn-primary">Add Category</a>
+
+
+ <table class="table">
+  <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Show Posts</th> 
+        <th scope="col">Edit</th>
+        <th scope="col">Settings</th>
+    </tr>
+  </thead>
+  <tbody>
+     {% for category in object_list %}
+        <tr>
+            <td> {{category.id}}</td> <td> {{category.name}}</td>
+            <td> <a href="{% url 'category.posts' category.id %}" class="btn btn-primary">Show Posts</a></td>
+            <td> <a href="{% url 'adminuser.update_category' category.id %}" class="btn btn-warning">Edit</a></td>
+            <td> <a href="{% url 'adminuser.delete_category' category.id %}" class="btn btn-danger">Delete</a></td>
+        </tr>
+    {%endfor%}
+  </tbody>
+    </table>
+    <script src="{% static 'adminuser/js/script.js' %}"></script>
+{% endblock %}

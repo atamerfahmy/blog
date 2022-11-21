@@ -1,0 +1,16 @@
+{% extends 'adminuser/base.html' %} {% load static %} 
+{% block title %} Forbidden Word {% endblock%} 
+
+{% block main %}
+  <h1>Add Forbidden Word</h1>
+  <form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% for f in form %}
+    <div class="form_element mb-3">{{f.label}} {{f}}</div>
+    {% endfor %}
+    <input type="submit" class="btn btn-success" />
+  </form>
+
+  <script src="{% static 'adminuser/js/script.js' %}"></script>
+{% endblock %}

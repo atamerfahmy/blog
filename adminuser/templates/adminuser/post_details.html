@@ -1,0 +1,94 @@
+{% extends 'adminuser/base.html' %}
+{% load static %}
+{% block title %} Posts {% endblock %}
+
+{% block main %}
+    <h1>Post Details</h1>
+    
+    {% comment %} <div class="card" style="width: 18rem;">             {% endcomment %}
+        {% if user.is_staff %}
+            <a href="{% url 'adminuser.update_post' post.id %}" class="btn btn-warning">Edit</a>
+            <a href="{% url 'adminuser.delete_post' post.id %}" class="btn btn-danger">Delete</a>
+        {% endif %}
+
+        <img src="{{post.get_image_url}}" class="card-img-top mt-3" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{post.title}}</h5>
+            <p class="card-text">{{post.content}}</p>
+            <p class="card-text">{{post.created_at}}</p>
+            <p class="card-text">{{post.updated_at}}</p>
+            <p class="card-text">{{post.category}}</p>
+
+            <p class="card-text">Likes: {{post.likes.count}}</p>
+            <p class="card-text">Dislikes: {{post.dislikes.count}}</p>
+
+            {% if user.is_authenticated and not is_liked and not is_disliked %}
+                <a href="{% url 'adminuser.like_post' post.id %}" class="btn btn-primary">Like</a>
+           
+                <a href="{% url 'adminuser.dislike_post' post.id %}" class="btn btn-warning">Dislike</a>
+            {% endif %}
+        </div>
+
+        <h3>Comments</h3>
+
+        {% comment %} {{ comments }} {% endcomment %}
+
+        {% for comment in comments %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex">
+                                <h5 class="card-title me-5">{{ comment.id }}</h5>
+                                <h5 class="card-title me-5">{{ comment.user.username }}</h5>
+                                <p class="card-text">{{ comment.content }}</p> 
+                            </div>
+
+                            {% if user.is_authenticated %}
+                                <button type="button" onClick="replyTo({{comment.id}})" class="btn btn-primary">Reply</button>
+                            {% endif %}
+                        </div>
+
+                        {% if comment.replies.count is not 0 %}
+                            <div class="mt-5">
+                                <h6>Replies:</h6>
+                            </div>
+                        {% endif %}
+                        {% for reply in comment.replies %}
+                            <div class="d-flex justify-content-between align-items-center ms-5">
+                                <div class="d-flex">
+                                    <h5 class="card-title me-5">{{ reply.id }}</h5>
+                                    <h5 class="card-title me-5">{{ reply.user.username }}</h5>
+                                    <p class="card-text">{{ reply.content }}</p> 
+                                </div>
+                            </div>
+                        {%endfor%}
+
+                    </div>
+                </div>
+            </div>
+        {%endfor%}
+
+        {% if user.is_authenticated %}
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h6 class="mt-3">Add Comment</h6>
+            {% comment %} {{comment_form}} {% endcomment %}
+            <label for="id_content">Comment:</label>
+            <input type="text" name="content" maxlength="200" required="" id="id_content" class="form-control" required>
+            <label for="id_reply">Reply:</label>
+            <select name="reply" id="id_reply" class="form-control">
+                <option value="" selected="">---------</option>
+              
+                {% for comment in comments %}
+                <option value="{{comment.id}}">{{comment.id}}</option>
+
+                {%endfor%}              
+              </select>
+            <button type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
+        </form>
+        {% endif %}
+        
+    {% comment %} </div> {% endcomment %}
+    <script src="{% static 'adminuser/js/script.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'adminuser/base.html' %}
+{% load static %}
+{% block title %} Auth {% endblock %}
+
+{% block main %}
+    <h1>Sign up</h1>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{form.as_p}}
+        <input type="submit" class="btn btn-success">
+    </form>
+
+    <script src="{% static 'adminuser/js/script.js' %}"></script>
+{% endblock %}

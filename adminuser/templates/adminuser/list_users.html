@@ -1,0 +1,55 @@
+{% extends 'adminuser/base.html' %}
+{% load static %}
+{% block title %} Users {% endblock %}
+
+{% block main %}
+<h1> All Users </h1>
+    {% comment %} {{object_list}}
+    {{posts}} {% endcomment %}
+
+ <table class="table">
+  <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">Is Staff</th>
+
+        {% comment %} <th scope="col">Show</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>  {% endcomment %}
+    </tr>
+  </thead>
+  <tbody>
+     {% for user_obj in object_list %}
+        {% if user_obj.is_staff %}
+            <tr class="bg-danger">
+        {% else %}
+            <tr>
+        {% endif %}
+        
+            <td> {{user_obj.id}}</td> <td> {{user_obj.username}}</td>
+            <td> {{user_obj.email}}</td> <td> {{user_obj.is_staff}}</td>
+            <td>
+                {% if user_obj.is_staff is not True %}
+                    {% if user_obj.is_active %}
+                        <a href="{% url 'adminuser.block_user' user_obj.id %}" class="btn btn-warning">Block</a>
+                    {% else %}
+                        <a href="{% url 'adminuser.unblock_user' user_obj.id %}" class="btn btn-primary">Unblock</a>
+                    {% endif %}
+                {% endif %}
+            </td>
+            <td>
+                {% if user_obj.is_staff is not True %}
+                    <a href="{% url 'adminuser.promote_user' user_obj.id %}" class="btn btn-success">Promote</a>
+                {% endif %}
+            </td>
+            {% comment %} <td> <a href="{% url 'adminuser.user_details' user.id %}" class="btn btn-primary">Show</a></td>
+            <td> <a href="{% url 'adminuser.update_user' user.id %}" class="btn btn-warning">Edit</a></td>
+            <td> <a href="{% url 'adminuser.delete_user' user.id %}" class="btn btn-danger">Delete</a></td> {% endcomment %}
+        </tr>
+    {%endfor%}
+  </tbody>
+    </table>
+    <script src="{% static 'adminuser/js/script.js' %}"></script>
+{% endblock %}

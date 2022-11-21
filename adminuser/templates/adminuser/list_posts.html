@@ -1,0 +1,32 @@
+{% extends 'adminuser/base.html' %}
+{% load static %}
+{% block title %} Posts {% endblock %}
+
+{% block main %}
+<h1> All Posts </h1>
+<a href="{% url 'adminuser.create_post' %}" class="btn btn-primary">Add Post</a>
+
+
+ <table class="table">
+  <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Show</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th> 
+    </tr>
+  </thead>
+  <tbody>
+     {% for post in object_list %}
+        <tr>
+            <td> {{post.id}}</td> <td> {{post.title}}</td>
+            <td> <a href="{% url 'adminuser.post_details' post.id %}" class="btn btn-primary">Show</a></td>
+            <td> <a href="{% url 'adminuser.update_post' post.id %}" class="btn btn-warning">Edit</a></td>
+            <td> <a href="{% url 'adminuser.delete_post' post.id %}" class="btn btn-danger">Delete</a></td> 
+        </tr>
+    {%endfor%}
+  </tbody>
+    </table>
+    <script src="{% static 'adminuser/js/script.js' %}"></script>
+{% endblock %}
